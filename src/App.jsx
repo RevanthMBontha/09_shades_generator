@@ -1,28 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SingleColor from './SingleColor';
 
 import Values from 'values.js';
 
-const randomColors = [
-  '#FF48C4',
-  '#2BD1FC',
-  '#5B0E2D',
-  '#C04DF9',
-  '#FF3F3F',
-  '#27187E',
-  '#FF8600',
-  '#41E2BA',
-  '#E86A92',
-  '#EE6352',
-  '#57A773',
-];
+const url =
+  'https://api-for-basic-projects.netlify.app/shades-generator/shades_generator_data.json';
 
 function App() {
-  const displayColor =
-    randomColors[Math.floor(Math.random() * randomColors.length)];
+  const [randomDisplayColor, setRandomDisplayColor] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [color, setColor] = useState('');
   const [error, setError] = useState(false);
-  const [list, setList] = useState(new Values(displayColor).all(10));
+  const [list, setList] = useState([]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -37,10 +26,51 @@ function App() {
     }
   };
 
+  const fetchRandomColors = async () => {
+    const response = await fetch(url);
+    const response_data = await response.json();
+    const displayColor =
+      response_data[Math.floor(Math.random() * response_data.length)];
+    setList(new Values(displayColor).all(10));
+    setRandomDisplayColor(displayColor);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRandomColors();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <>
+        <section className="container-vertical">
+          <h2>shades generator</h2>
+          <p>Click on color to copy the hex code!</p>
+        </section>
+        <section className="container">
+          <form onSubmit={handleSubmit}>
+            <input
+              className={error ? 'error' : null}
+              type="text"
+              value={color}
+              onChange={(evt) => setColor(evt.target.value)}
+              placeholder="color"
+            />
+            <button className="btn" type="submit">
+              generate
+            </button>
+          </form>
+        </section>
+        <footer className="footer"></footer>
+      </>
+    );
+  }
+
   return (
     <>
-      <section className="container">
+      <section className="container-vertical">
         <h2>shades generator</h2>
+        <p>Click on color to copy the hex code!</p>
       </section>
       <section className="container">
         <form onSubmit={handleSubmit}>
@@ -49,7 +79,7 @@ function App() {
             type="text"
             value={color}
             onChange={(evt) => setColor(evt.target.value)}
-            placeholder={displayColor}
+            placeholder={randomDisplayColor}
           />
           <button className="btn" type="submit">
             generate
