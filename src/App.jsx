@@ -6,7 +6,7 @@ import Values from 'values.js';
 const randomColors = [
   '#FF48C4',
   '#2BD1FC',
-  '#F3EA5F',
+  '#5B0E2D',
   '#C04DF9',
   '#FF3F3F',
   '#27187E',
