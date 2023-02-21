@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SingleColor from './SingleColor';
 
 import Values from 'values.js';
@@ -33,7 +33,7 @@ function App() {
     const displayColor =
       response_data[Math.floor(Math.random() * response_data.length)];
     setList(new Values(displayColor).all(10));
-    setRandomDisplayColor(displayColor);
+    setRandomDisplayColor(displayColor.toUpperCase());
     setIsLoading(false);
   };
 
@@ -80,7 +80,7 @@ function App() {
             type="text"
             value={color}
             onChange={(evt) => setColor(evt.target.value)}
-            placeholder={randomDisplayColor}
+            placeholder={randomDisplayColor.toUpperCase()}
           />
           <button className="btn" type="submit">
             generate

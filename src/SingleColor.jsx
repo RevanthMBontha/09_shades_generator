@@ -24,7 +24,7 @@ const SingleColor = ({ rgb, weight, index, hex }) => {
       onClick={handleClick}
     >
       <p className="percent-value">{weight}%</p>
-      <p className="color-value">{rgbToHex(...rgb)}</p>
+      <p className="color-value">{rgbToHex(...rgb).toUpperCase()}</p>
       {displayAlert && (
         <p className={`alert color-value`}>copied to clipboard</p>
       )}
