@@ -20,6 +20,7 @@ function App() {
       setList(colors);
       setColor('');
       setError(false);
+      setRandomDisplayColor(color);
     } catch (error) {
       setError(true);
       console.log(error);
